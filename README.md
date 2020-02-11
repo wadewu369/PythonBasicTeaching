@@ -30,4 +30,4 @@ Python基本教學，詳細資訊請查看我的部落格：https://shareboxnow.
 
 文章連結：https://shareboxnow.com/python-google-drive-1/
 
-程式碼位置：PythonBasicTeaching/GoogleDrive/UploadFile/
+程式碼位置：https://github.com/MarkwwLiu/PythonBasicTeaching/tree/master/GoogleDrive/UploadFile
