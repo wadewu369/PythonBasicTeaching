@@ -46,4 +46,4 @@ Python基本教學，詳細資訊請查看我的部落格：https://shareboxnow.
 
 文章連結：https://shareboxnow.com/python-json-to-dict/
 
-程式碼位置：
+程式碼位置：https://github.com/MarkwwLiu/PythonBasicTeaching/tree/master/Python/JsonToDict
