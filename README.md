@@ -1,6 +1,8 @@
 # PythonBasicTeaching
 Python基本教學，詳細資訊請查看我的部落格：https://shareboxnow.com/ 
-#
+
+---
+
 文章名稱：python Line Bot 與 Heroku 串接5步驟 手把手教學 Part 2 
 
 文章連結：https://shareboxnow.com/line-bot-python-part-2/
@@ -15,3 +17,8 @@ Python基本教學，詳細資訊請查看我的部落格：https://shareboxnow.
 程式碼位置：PythonBasicTeaching/LineBot/Chapter_2/
 
 #
+文章名稱：python 傳送訊息到Line Bot 1鍵搞定 手把手教學 Part 4
+
+文章連結：https://shareboxnow.com/https-shareboxnow-com-line-bot-python-part-4/
+
+程式碼位置：PythonBasicTeaching/LineBot/Chapter_3/
