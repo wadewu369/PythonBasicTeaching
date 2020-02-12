@@ -30,7 +30,7 @@ def update_file(service, update_drive_service_name, local_file_path, update_driv
     if update_drive_service_folder_id is None:
         file_metadata = {'name': update_drive_service_name}
     else:
-        print(update_drive_service_folder_id)
+        print("雲端資料夾id: %s" % update_drive_service_folder_id)
         file_metadata = {'name': update_drive_service_name,
                          'parents': update_drive_service_folder_id}
 
@@ -163,7 +163,7 @@ def main(is_update_file_function=False, update_drive_service_folder_name=None, u
 
 if __name__ == '__main__':
 
-    main(is_update_file_function=bool(True), update_drive_service_folder_name = None, update_drive_service_name='aaa.txt', update_file_path=os.getcwd() + '/')
+    main(is_update_file_function=bool(True), update_drive_service_folder_name=None, update_drive_service_name='aaa.txt', update_file_path=os.getcwd() + '/')
 
 
 
