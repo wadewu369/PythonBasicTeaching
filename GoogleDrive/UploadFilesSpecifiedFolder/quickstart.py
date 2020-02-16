@@ -191,7 +191,7 @@ def main(is_update_file_function=False, update_drive_service_folder_name=None, u
             search_file(service=service, update_drive_service_name=update_drive_service_name, is_delete_search_file=True)
             # 檔案上傳到雲端上
             update_file(service=service, update_drive_service_name=update_drive_service_name,
-                        local_file_path=os.getcwd() + '/' + update_drive_service_name, update_drive_service_folder_id=get_folder_id)
+                        local_file_path=update_file_path + update_drive_service_name, update_drive_service_folder_id=get_folder_id)
             print("=====上傳檔案完成=====")
 
 
