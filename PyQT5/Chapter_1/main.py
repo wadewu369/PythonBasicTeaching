@@ -15,7 +15,7 @@ from MarkQtUI import Ui_MainWindow
 class Mark(QMainWindow, Ui_MainWindow):
 
     def __init__(self, parent=None):
-        # 繼承Ui_MainWindow 也就是 mark_tool 內的 class
+        # 繼承Ui_MainWindow 也就是 MarkQtUI 內的 class
         super(Mark, self).__init__(parent)
 
         # 建立ui介面
