@@ -11,11 +11,10 @@ from linebot.models import *
 app = Flask(__name__)
 
 # Channel Access Token
-line_bot_api = LineBotApi({YOU_Channel_Access Token})
+line_bot_api = LineBotApi('YOUR_CHANNEL_ACCESS_TOKEN')
 # Channel Secret
-handler = WebhookHandler({YOU_Channel_Secret})
-
-user_id = {YOU_USER_ID}
+handler = WebhookHandler('YOUR_CHANNEL_SECRET')
+user_id = 'user_id'
 
 
 @app.route("/broadcast_function/<string:broadcast_text_str>")
