@@ -25,18 +25,21 @@ def download_file(service, file_id, download_file_path, download_drive_service_n
     :param download_file_name: 下載到本地端的名稱
     :return:
     """
-    request = service.files().get_media(fileId=file_id)
-    local_download_path = os.getcwd() + '/' + str(download_drive_service_name)
-    print('download path: ', local_download_path)
-    fh = io.FileIO(local_download_path, 'wb')
-    downloader = MediaIoBaseDownload(fh, request)
-    print("下載檔案中....")
-    done = False
-    while done is False:
-        status, done = downloader.next_chunk()
-        print("Download %d%%." % int(status.progress() * 100))
-    print("下載完成")
-    print("下載檔案位置為: ", str(download_file_path + download_drive_service_name))
+    if file_id is not None:
+        request = service.files().get_media(fileId=file_id)
+        local_download_path = download_file_path + download_drive_service_name
+        fh = io.FileIO(local_download_path, 'wb')
+        downloader = MediaIoBaseDownload(fh, request)
+        print("下載檔案中....")
+        done = False
+        while done is False:
+            status, done = downloader.next_chunk()
+            print("Download %d%%." % int(status.progress() * 100))
+        print("下載完成")
+        print("下載檔案位置為: ", str(download_file_path + download_drive_service_name))
+        print("=====下載檔案完成=====")
+    else:
+        print("=====下載檔案失敗，未找到檔案=====")
 
 
 def search_file(service, download_drive_service_name, is_delete_search_file=False):
@@ -55,7 +58,8 @@ def search_file(service, download_drive_service_name, is_delete_search_file=Fals
                                    ).execute()
     items = results.get('files', [])
     if not items:
-        print('沒有發現你要找尋的 ' + download_drive_service_name + ' 檔案.')
+        print('雲端上，沒有發現你要找尋的 ' + download_drive_service_name + ' 檔案.')
+        return None
     else:
         print('搜尋的檔案: ')
         for item in items:
@@ -81,9 +85,7 @@ def main(is_download_file_function=False,
     :return:
     """
 
-    print("is_download_file_function")
-    print(type(is_download_file_function))
-    print(is_download_file_function)
+    print("is_download_file_function: %s " % is_download_file_function)
     store = file.Storage('token.json')
     creds = store.get()
     if not creds or creds.invalid:
@@ -92,20 +94,17 @@ def main(is_download_file_function=False,
     service = build('drive', 'v3', http=creds.authorize(Http()))
     print('*' * 10)
 
-
     # 本地端 執行部分
     if is_download_file_function is True:
         print("=====執行下載檔案=====")
-
         # 搜尋上傳的檔案名稱 本地端執行部分
         drive_service_file_id = search_file(service=service, download_drive_service_name=download_drive_service_name)
         download_file(service=service, file_id=drive_service_file_id, download_file_path=download_file_path, download_drive_service_name=download_drive_service_name)
-        print("=====下載檔案完成=====")
 
 
 if __name__ == '__main__':
 
-    main(is_download_file_function=bool(True), download_drive_service_name='ccc.txt', download_file_path=os.getcwd() + '/')
+    main(is_download_file_function=bool(True), download_drive_service_name='aaa.txt', download_file_path=os.getcwd() + '/')
 
 
 
