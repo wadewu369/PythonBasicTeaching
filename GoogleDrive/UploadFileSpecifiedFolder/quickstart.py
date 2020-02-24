@@ -163,7 +163,7 @@ def main(is_update_file_function=False, update_drive_service_folder_name=None, u
 
 if __name__ == '__main__':
 
-    main(is_update_file_function=bool(True), update_drive_service_folder_name=None, update_drive_service_name='aaa.txt', update_file_path=os.getcwd() + '/')
+    main(is_update_file_function=bool(True), update_drive_service_folder_name='TestAPI', update_drive_service_name='aaa.txt', update_file_path=os.getcwd() + '/')
 
 
 
