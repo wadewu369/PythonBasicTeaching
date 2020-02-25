@@ -128,6 +128,7 @@ def search_file(service, download_drive_service_name, folder_id):
                     if item['name'] == download_drive_service_name:
                         getDownloadFileIdList.append(item['id'])
                         getDownloadFileNameList.append(item['name'])
+                        getDownloadFileMimeTypeList.append(item['mimeType'])
         except Exception as e:
             pass
 
@@ -142,6 +143,7 @@ def main(is_download_file_function=False, download_drive_service_name=None, down
 
     print("is_download_file_function: %s " % is_download_file_function)
     print("drive_service_folder_name: %s " % drive_service_folder_name)
+    print("download_drive_service_name: %s" % download_drive_service_name)
     store = file.Storage('token.json')
     creds = store.get()
     if not creds or creds.invalid:
@@ -161,7 +163,7 @@ def main(is_download_file_function=False, download_drive_service_name=None, down
 
 
 if __name__ == '__main__':
-    main(is_download_file_function=bool(True), drive_service_folder_name='TestAPI', download_drive_service_name=None, download_file_path=os.getcwd() + '/TestFolder/')
+    main(is_download_file_function=bool(True), drive_service_folder_name='TestAPI', download_drive_service_name='memory_script.zip', download_file_path=os.getcwd() + '/TestFolder/')
 
 
 
