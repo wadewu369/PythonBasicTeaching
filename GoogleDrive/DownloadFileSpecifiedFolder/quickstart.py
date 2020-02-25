@@ -19,22 +19,16 @@ def delete_drive_service_file(service, file_id):
 
 def search_folder(service, drive_service_folder_name=None):
     """
-    如果雲端資料夾名稱相同，則只會選擇一個資料夾上傳，請勿取名相同名稱
+    如果雲端資料夾名稱相同，則只會選擇一個資料夾，請勿取名相同名稱
     :param service: 認證用
-    :param update_drive_folder_name: 取得指定資料夾的id，沒有的話回傳None，給錯也會回傳None
+    :param drive_service_folder_name: 取得指定資料夾的id，沒有的話回傳None，給錯也會回傳None
     :return:
     """
-    get_folder_id_list = []
     if drive_service_folder_name is not None:
         response = service.files().list(fields="nextPageToken, files(id, name)", spaces='drive',
                                        q = "name = '" + drive_service_folder_name + "' and mimeType = 'application/vnd.google-apps.folder' and trashed = false").execute()
         for file in response.get('files', []):
             print('雲端資料夾: %s (%s)' % (file.get('name'), file.get('id')))
-            return file.get('id')
-        if len(get_folder_id_list) == 0:
-            print("找不到你所提供的資料夾名稱，因此會搜尋整個雲端檔案\n 如果有發現符合檔案名稱，則會自動下載至本地端")
-            return None
-        else:
             return file.get('id')
     return None
 
@@ -49,27 +43,32 @@ def download_file(service, file_id_list, file_name_list, download_file_path, ):
     :param download_file_name: 下載到本地端的名稱
     :return:
     """
-    print(file_id_list)
-    print(file_name_list)
-    if file_id_list is not None:
-        for times in range(len(file_id_list)):
-            request = service.files().get_media(fileId=file_id_list[times])
-            local_download_path = download_file_path + file_name_list[times]
-            fh = io.FileIO(local_download_path, 'wb')
-            downloader = MediaIoBaseDownload(fh, request)
-            print("下載檔案中....")
-            done = False
-            while done is False:
-                status, done = downloader.next_chunk()
-                print("Download %d%%." % int(status.progress() * 100))
-            print("下載完成")
-            print("下載檔案位置為: ", str(local_download_path))
-            print("=====下載檔案完成=====")
+    download_file_path_list = []
+    downloadFileDict = dict(zip(file_id_list, file_name_list))
+    if downloadFileDict == {}:
+        print('你所提供的檔案名稱不存在或是輸入有錯，記得要加上副檔名')
     else:
-        print("=====下載檔案失敗，未找到檔案=====")
+        print('下載的檔案名稱以及Id: %s' % str(downloadFileDict))
+        if file_id_list is not None:
+            for key, value in downloadFileDict.items():
+                request = service.files().get_media(fileId=key)
+                local_download_path = download_file_path + value
+                fh = io.FileIO(local_download_path, 'wb')
+                downloader = MediaIoBaseDownload(fh, request)
+                print("下載檔案中....")
+                done = False
+                while done is False:
+                    status, done = downloader.next_chunk()
+                    print("Download %d%%." % int(status.progress() * 100))
+                # print("下載檔案位置為: ", str(local_download_path))
+                print("=====下載檔案 %s 完成=====" % value)
+                download_file_path_list.append(local_download_path)
+        else:
+            print("=====下載檔案失敗，未找到檔案=====")
+        print('雲端檔案下載儲存在你本地端的位置:\n%s' % '\n'.join(download_file_path_list))
 
 
-def search_file(service, download_drive_service_name, folder_id, is_delete_search_file=False):
+def search_file(service, download_drive_service_name, folder_id):
     # global getDownloadFileIdList
     # global getDownloadFileNameList
     """
@@ -81,27 +80,25 @@ def search_file(service, download_drive_service_name, folder_id, is_delete_searc
     :param is_delete_search_file: 判斷是否需要刪除這個檔案名稱
     :return:
     """
-
-    # Call the Drive v3 API
-    # if download_drive_service_name is None:
-    #     return None
-    # else:
     results = service.files().list(fields="nextPageToken, files(parents, id, name)", spaces='drive',
-                                   q="trashed = false",
+                                   q="trashed = false and mimeType != 'application/vnd.google-apps.folder'",
                                    ).execute()
     items = results.get('files', [])
+
     for item in items:
+        # 因為有些檔案沒有提供 parents參數會導致崩潰，因此用try的方式進行
         try:
             getItemStr = ''.join(item['parents'])
             if getItemStr == folder_id:
-                getDownloadFileIdList.append(item['id'])
-                getDownloadFileNameList.append(item['name'])
+                if download_drive_service_name is None:  # 如果沒有指定的話(None)，會抓資料夾底下的所有檔案，但不會抓取下一層的資料夾底下的檔案
+                    getDownloadFileIdList.append(item['id'])
+                    getDownloadFileNameList.append(item['name'])
+                else:  # 如果你有給資料夾底下指定的檔案名稱會跑這裡
+                    if item['name'] == download_drive_service_name:
+                        getDownloadFileIdList.append(item['id'])
+                        getDownloadFileNameList.append(item['name'])
         except Exception as e:
             pass
-    print('取得資料夾內的檔案id: %s' % ', '.join(getDownloadFileIdList))
-    print('取得資料夾內的檔案id: %s' % ', '.join(getDownloadFileNameList))
-
-    # return getDownloadFileIdList
 
 
 def main(is_download_file_function=False, download_drive_service_name=None, download_file_path=None, drive_service_folder_name=None):
@@ -126,9 +123,9 @@ def main(is_download_file_function=False, download_drive_service_name=None, down
     if is_download_file_function is True:
         print("=====執行下載檔案=====")
         # 搜尋上傳的檔案名稱 本地端執行部分
-        get_folder_id = search_folder(service = service, drive_service_folder_name = drive_service_folder_name)
-        search_file(service=service, download_drive_service_name=download_drive_service_name, folder_id = get_folder_id)
-        download_file(service=service, file_id_list =getDownloadFileIdList, download_file_path=download_file_path,
+        get_folder_id = search_folder(service = service, drive_service_folder_name = drive_service_folder_name)  # 找尋你給的資料夾名稱專屬 id
+        search_file(service=service, download_drive_service_name=download_drive_service_name, folder_id = get_folder_id)  # 透過取得的資料夾id 找尋裡面的所有檔案id
+        download_file(service=service, file_id_list=getDownloadFileIdList, download_file_path=download_file_path,  # 執行下載步驟
                       file_name_list=getDownloadFileNameList)
 
 
