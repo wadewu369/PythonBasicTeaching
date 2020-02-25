@@ -37,7 +37,7 @@ if __name__ == "__main__":
     # 第一行必備，系統呼叫
     app = QApplication(sys.argv)
 
-    # 指定 Mark Class 會先執行__init__
+    # 指定 TestFolder Class 會先執行__init__
     window = Mark()
 
     # 將GUI介面顯示出來
