@@ -3,4 +3,4 @@
 
 文章連結：https://shareboxnow.com/telegram-python-1/
 
-程式碼位置：https://github.com/MarkwwLiu/PythonBasicTeaching/tree/master/LineBot/Chapter_2
+程式碼位置：https://github.com/MarkwwLiu/PythonBasicTeaching/tree/master/Telegram/Chapter_1
