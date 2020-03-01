@@ -39,7 +39,7 @@ def inputCostRecord(bot, update):
     '''
     timeStr = time.strftime('%Y/%m/%d', time.localtime(time.time()))  # 當天的時間
     if len(update.message.text) <= 6:  # 如果單純輸入 /cost 會跟你說叫你該如何輸入，以及因為/cost 的字元數量一定會小於6
-        update.message.reply_text('你輸入方式有錯誤喔！\n請輸入：/cost 項目 金錢 \n 例如: /cost 吃飯 300')
+        update.message.reply_text('你輸入方式有錯誤喔！\n請輸入：/addCost 項目 金錢 \n 例如: /addCost 吃飯 300')
     else:
         dailyCost = update.message.text[8:].replace('\n', ' ')  # 取得到 /cost 後面的參數值
         try:  # 用try的原因輸入參數太多，沒依照固定格式輸入，因此會請你重新用正確格式重新輸入
@@ -54,11 +54,11 @@ def inputCostRecord(bot, update):
                 logging.info(timeStr + ' 花費項目, 金額：{}'.format(dailyCost))  # 顯示 log
             else:
                 # 輸入錯誤格式或有誤時，請重新輸入
-                update.message.reply_text('你輸入方式有錯誤喔！\n請輸入：/cost 項目 金錢 \n 例如: /cost 吃飯 300')
+                update.message.reply_text('你輸入方式有錯誤喔！\n請輸入：/addCost 項目 金錢 \n 例如: /addCost 吃飯 300')
         except Exception as e:
             # 輸入錯誤格式或有誤時，請重新輸入以及顯示問題點
             logging.info('[try inputCostRecord Fail]: %s' % e)
-            update.message.reply_text('你輸入方式有錯誤喔！\n請輸入：/cost 項目 金錢 \n 例如: /cost 吃飯 300')
+            update.message.reply_text('你輸入方式有錯誤喔！\n請輸入：/addCost 項目 金錢 \n 例如: /addCost 吃飯 300')
 
 
 def isInputCostInt(Input_data):
@@ -88,7 +88,7 @@ def getOverallCostRecord(bot, update):
         # 將 list 轉成 str 顯示在 bot
         update.message.reply_text('所有的花費:\n%s' % '\n'.join(total_list))
     else:  # 如果list 沒有任何資料會是回傳0 會請你去紀錄，再查看
-        update.message.reply_text('你暫時沒有紀錄喔！請透過底下指令做紀錄\n /cost 項目 金錢 \n 例如: /cost 吃飯 300')
+        update.message.reply_text('你暫時沒有紀錄喔！請透過底下指令做紀錄\n /addCost 項目 金錢 \n 例如: /addCost 吃飯 300')
 
 
 def deleteCostRecord(bot, update):
@@ -131,7 +131,7 @@ def deleteCostRecord(bot, update):
     else:  # 如果list 沒有任何資料會是回傳0 會請你去紀錄，再查看
         update.message.reply_text('你暫時沒有紀錄喔！'
                                   '請透過底下指令做紀錄\n '
-                                  '/cost 項目 金錢 \n 例如: /cost 吃飯 300\n'
+                                  '/addCost 項目 金錢 \n 例如: /addCost 吃飯 300\n'
                                   '/在進行 /deleteCost 2020-03-01 吃飯 300')
 
 
