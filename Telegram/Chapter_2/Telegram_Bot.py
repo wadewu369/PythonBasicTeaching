@@ -45,9 +45,6 @@ def inputCostRecord(bot, update):
         try:  # 用try的原因輸入參數太多，沒依照固定格式輸入，因此會請你重新用正確格式重新輸入
             # 判斷我們輸入的第二位參數一定要是Int以及list的數量一定要等於三個，如果沒有也會請你重新輸入正確格式
             if (isInputCostInt(Input_data = dailyCost.split(' ')) is True) and (len(dailyCost.split(' ')) == 3):
-                # recordMoney.append(dailyCost)  # 將取得的參數值放入到 recordMoney list內
-                # with open('totalCost.txt', 'a', encoding='UTF-8') as FILE:  # 開啟 totalCost.txt 將資料寫入在這裡
-                #     print(timeStr + dailyCost, file=FILE)
                 f = open('totalCost.txt', 'a')
                 f.write(timeStr + dailyCost + '\n')
                 f.close()
@@ -90,7 +87,6 @@ def getOverallCostRecord(bot, update):
         logging.info('recordMoney: %s' % total_list)
         # 將 list 轉成 str 顯示在 bot
         update.message.reply_text('所有的花費:\n%s' % '\n'.join(total_list))
-        # total_list.remove(3)
     else:  # 如果list 沒有任何資料會是回傳0 會請你去紀錄，再查看
         update.message.reply_text('你暫時沒有紀錄喔！請透過底下指令做紀錄\n /cost 項目 金錢 \n 例如: /cost 吃飯 300')
 
