@@ -7,16 +7,6 @@ def getYourInformation(bot, update):
     """
     :param bot: 機器人預設值一定要，如果沒有給的話，你的機器人不會回覆
     :param update:Telegram update資訊，主要我們只有用到 回覆訊息部分
-    :return:
-    發送人 first name, Mark
-    發送人 last name, None
-    發送人 full name:, Mark
-    發送人 username:, None
-    發送人 id:, 1071350331
-    message_id:, 156
-    所在的聊天室 id:, 1071350331
-    所在的聊天室 type:, private
-    訊息內容:, /yourInfo
     """
     update.message.reply_text('發送人 first name, {}'.format(update.message.from_user.first_name))
     update.message.reply_text('發送人 last name, {}'.format(update.message.from_user.last_name))

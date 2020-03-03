@@ -13,7 +13,7 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 # use_context 主要是版本問題，暫時先不能改成True，否則下面的功能是無法顯示的
-updater = Updater(token='1095867949:AAEt-ZKCtuEe5mNDMwjNiCKKXL2JBvvRm3w', use_context=False)
+updater = Updater(token='YOUR_TOKEN', use_context=False)
 
 
 def getTotalCostList():
