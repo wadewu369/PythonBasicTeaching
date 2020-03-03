@@ -13,7 +13,7 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 # use_context 主要是版本問題，暫時先不能改成True，否則下面的功能是無法顯示的
-updater = Updater(token='YOUR_TOKEN', use_context=False)
+updater = Updater(token='1095867949:AAEt-ZKCtuEe5mNDMwjNiCKKXL2JBvvRm3w', use_context=False)
 
 
 def getTotalCostList():
@@ -35,7 +35,7 @@ def inputCostRecord(bot, update):
     紀錄你的項目以及金額到 totalCost.txt
     一次只能一筆
     :param bot: 機器人預設值一定要，如果沒有給的話，你的機器人不會回覆
-    :param update: Telegram的更新功能，主要我們只有用到 回覆訊息部分
+    :param update: Telegram update資訊，主要我們只有用到 回覆訊息部分
     '''
     timeStr = time.strftime('%Y/%m/%d', time.localtime(time.time()))  # 當天的時間
     if len(update.message.text) <= 6:  # 如果單純輸入 /cost 會跟你說叫你該如何輸入，以及因為/cost 的字元數量一定會小於6
@@ -78,7 +78,7 @@ def getOverallCostRecord(bot, update):
     """
     取得 totalCost.txt內的所有資料顯示到你的line bot上
     :param bot: 機器人預設值一定要，如果沒有給的話，你的機器人不會回覆
-    :param update: Telegram的更新功能，主要我們只有用到 回覆訊息部分
+    :param update: Telegram update資訊，主要我們只有用到 回覆訊息部分
     """
     total_list = getTotalCostList()  # 取得 totalCost內的檔案並轉成的list
     logging.info(total_list)  # 印出 log
@@ -95,7 +95,7 @@ def deleteCostRecord(bot, update):
     """
     刪除紀錄用
     :param bot: 機器人預設值一定要，如果沒有給的話，你的機器人不會回覆
-    :param update: Telegram的更新功能，主要我們只有用到 回覆訊息部分
+    :param update: Telegram update資訊，主要我們只有用到 回覆訊息部分
     """
     total_list = getTotalCostList()  # 取得 totalCost內的檔案並轉成的list
     logging.info(total_list)  # 印出 log

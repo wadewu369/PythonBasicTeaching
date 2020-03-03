@@ -6,7 +6,7 @@ updater = Updater(token='YOUR_TOKEN', use_context=False)
 def getYourInformation(bot, update):
     """
     :param bot: 機器人預設值一定要，如果沒有給的話，你的機器人不會回覆
-    :param update: Telegram的更新功能，主要我們只有用到 回覆訊息部分
+    :param update:Telegram update資訊，主要我們只有用到 回覆訊息部分
     :return:
     發送人 first name, Mark
     發送人 last name, None
@@ -32,7 +32,7 @@ def getYourInformation(bot, update):
 def testReply(bot, update):
     """
     :param bot: 機器人預設值一定要，如果沒有給的話，你的機器人不會回覆
-    :param update: Telegram的更新功能，主要我們只有用到 回覆訊息部分
+    :param update: Telegram update資訊，主要我們只有用到 回覆訊息部分
     :return:
     Hi Mark 最近好嗎？
     """
