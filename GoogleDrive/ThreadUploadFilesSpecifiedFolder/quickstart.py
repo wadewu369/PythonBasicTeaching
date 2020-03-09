@@ -62,8 +62,6 @@ def update_all_file(update_drive_service_name, local_file_path, update_drive_ser
     print('檔案大小為: ' + str(file_metadata_size) + ' byte')
     print("上傳時間為: " + str(end-start))
 
-    # return file_metadata['name'], file_id['id']
-
 
 def update_file(service, update_drive_service_name, local_file_path, update_drive_service_folder_id):
     """
@@ -293,14 +291,11 @@ def main(is_update_file_function=False, update_drive_service_folder_name=None,
 
 
 if __name__ == '__main__':
-    # 花費時間 168.76秒 未使用 Thread 1.先刪除雲端上與要上傳相同名稱的id -> 2.再上傳檔案上去
-    # 花費時間 77.07秒 使用 Thread 1.先刪除雲端上與要上傳相同名稱的id -> 2.再上傳檔案上去
-
+    # 花費時間 75.77654194831848秒 未使用 Thread 1.先刪除雲端上與要上傳相同名稱的id -> 2.再上傳檔案上去
+    # 花費時間 28.011533975601196秒 使用 Thread 1.先刪除雲端上與要上傳相同名稱的id -> 2.再上傳檔案上去
     start = time.time()
-
     main(is_update_file_function=bool(True), update_drive_service_folder_name='TestAPI',
          update_drive_service_name=None, update_file_path=os.getcwd() + '/UploadFiles/', isThread=True)
-
     end = time.time()
     print("用時{}秒".format((end-start)))
 

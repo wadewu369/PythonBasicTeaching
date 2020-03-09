@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import json
 import sys
 import os
 import time
@@ -11,7 +11,7 @@ from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtCore import pyqtSlot
 from datetime import datetime
 
-from MarkQtUI import Ui_MainWindow
+from MarkQtUI_Radio_end import Ui_MainWindow
 
 
 class Mark(QMainWindow, Ui_MainWindow):
@@ -32,6 +32,17 @@ class Mark(QMainWindow, Ui_MainWindow):
         # 下面兩個是我們新增的按鈕，因此我們給他指定的function，當使用者點擊了之後會跑去對應的function做操作
         self.clickDateButton.clicked.connect(self.date_button_clicked)
         self.clickTimeButton.clicked.connect(self.time_button_clicked)
+
+        # 下面三個是我們新增的三個 Radio 按鈕，因此我們給他指定的function，當使用者點擊了之後會跑去對應的function做操作
+        self.clickWaterRadioButton.clicked.connect(self.water_radio_button_clicked)
+        self.clickJuiceRadioButton.clicked.connect(self.juice_radio_button_clicked)
+        self.clickColaRadioButton.clicked.connect(self.cola_radio_button_clicked)
+
+        # 當你想對你所選擇到的 Radio做其他操作可以多設定一個參數值給他
+        self.selectRadioStr = ''
+        self.drink_dict = Mark.getJsonToDictData(self)
+
+        self.selectRadionButton.clicked.connect(self.select_radio_button_clicked)
 
     def logv2(self, title, msg):
         """
@@ -70,6 +81,61 @@ class Mark(QMainWindow, Ui_MainWindow):
         now_time = datetime.now().strftime("%H:%M:%S")
         self.displayListWidget.addItem(self.logv2('現在時間', now_time))  # 顯示在我們剛建立的 List Widget內
         self.displayListWidget.scrollToBottom()  # 這行很重要，如果你沒加這行，你的如果超過self.displayListWidget範圍的話，他是不會往下執行的
+
+    def water_radio_button_clicked(self):
+        """
+        當我們每點擊一次 self.clickWaterRadioButton 按鈕的時候，就會執行這裡
+        類似：[2020/03/07 23:42:19][現在時間] 23:42:19
+        """
+        self.displayListWidget.addItem(self.logv2('你選擇的是', self.drink_dict['drink']['water']))  # 顯示在我們剛建立的 List Widget內
+        self.displayListWidget.scrollToBottom()  # 這行很重要，如果你沒加這行，你的如果超過self.displayListWidget範圍的話，他是不會往下執行的
+        self.selectRadioStr = self.drink_dict['drink']['water']
+
+    def juice_radio_button_clicked(self):
+        """
+        當我們每點擊一次 self.clickTimeButton 按鈕的時候，就會執行這裡
+        類似：[2020/03/07 23:42:19][現在時間] 23:42:19
+        """
+        self.displayListWidget.addItem(self.logv2('你選擇的是', self.drink_dict['drink']['juice']))  # 顯示在我們剛建立的 List Widget內
+        self.displayListWidget.scrollToBottom()  # 這行很重要，如果你沒加這行，你的如果超過self.displayListWidget範圍的話，他是不會往下執行的
+        self.selectRadioStr = self.drink_dict['drink']['juice']
+
+    def cola_radio_button_clicked(self):
+        """
+        當我們每點擊一次 self.clickTimeButton 按鈕的時候，就會執行這裡
+        類似：[2020/03/07 23:42:19][現在時間] 23:42:19
+        """
+        self.displayListWidget.addItem(self.logv2('你選擇的是', self.drink_dict['drink']['cola']))  # 顯示在我們剛建立的 List Widget內
+        self.displayListWidget.scrollToBottom()  # 這行很重要，如果你沒加這行，你的如果超過self.displayListWidget範圍的話，他是不會往下執行的
+        self.selectRadioStr = self.drink_dict['drink']['cola']
+
+    def select_radio_button_clicked(self):
+        if self.selectRadioStr == '':
+            self.displayListWidget.addItem(self.logv2('你的選擇是', '請你點選下方任一個飲料'))  # 顯示在我們剛建立的 List Widget內
+        else:
+            self.displayListWidget.addItem(self.logv2('你最後選擇的是', self.selectRadioStr))  # 顯示在我們剛建立的 List Widget內
+
+        self.displayListWidget.scrollToBottom()  # 這行很重要，如果你沒加這行，你的如果超過self.displayListWidget範圍的話，他是不會往下執行的
+
+    def PATH(self, p):
+        return os.path.abspath(os.path.join(os.path.dirname(__file__), p))
+
+    def json_parser(self, raw_data):
+        # json -> dict of python
+        json_data = json.loads(raw_data)
+        return json_data
+
+    def getJsonToDictData(self):
+
+        # 取得 json
+        read_drink_data = open(str(self.PATH('./drink.json')), "r")
+        raw_data = read_drink_data.read()
+        read_drink_data.close()
+
+        # 將 json to dict
+        drink_dict = self.json_parser(raw_data)
+
+        return drink_dict
 
 
 if __name__ == "__main__":

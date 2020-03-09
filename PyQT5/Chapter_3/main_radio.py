@@ -11,7 +11,7 @@ from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtCore import pyqtSlot
 from datetime import datetime
 
-from MarkQtUI import Ui_MainWindow
+from MarkQtUI_Radio import Ui_MainWindow
 
 
 class Mark(QMainWindow, Ui_MainWindow):
@@ -32,6 +32,11 @@ class Mark(QMainWindow, Ui_MainWindow):
         # 下面兩個是我們新增的按鈕，因此我們給他指定的function，當使用者點擊了之後會跑去對應的function做操作
         self.clickDateButton.clicked.connect(self.date_button_clicked)
         self.clickTimeButton.clicked.connect(self.time_button_clicked)
+
+        # 下面三個是我們新增的三個 Radio 按鈕，因此我們給他指定的function，當使用者點擊了之後會跑去對應的function做操作
+        self.clickWaterRadioButton.clicked.connect(self.water_radio_button_clicked)
+        self.clickJuiceRadioButton.clicked.connect(self.juice_radio_button_clicked)
+        self.clickColaRadioButton.clicked.connect(self.cola_radio_button_clicked)
 
     def logv2(self, title, msg):
         """
@@ -69,6 +74,30 @@ class Mark(QMainWindow, Ui_MainWindow):
         """
         now_time = datetime.now().strftime("%H:%M:%S")
         self.displayListWidget.addItem(self.logv2('現在時間', now_time))  # 顯示在我們剛建立的 List Widget內
+        self.displayListWidget.scrollToBottom()  # 這行很重要，如果你沒加這行，你的如果超過self.displayListWidget範圍的話，他是不會往下執行的
+
+    def water_radio_button_clicked(self):
+        """
+        當我們每點擊一次 self.clickWaterRadioButton 按鈕的時候，就會執行這裡
+        類似：[2020/03/07 23:42:19][現在時間] 23:42:19
+        """
+        self.displayListWidget.addItem(self.logv2('你選擇的是', '水'))  # 顯示在我們剛建立的 List Widget內
+        self.displayListWidget.scrollToBottom()  # 這行很重要，如果你沒加這行，你的如果超過self.displayListWidget範圍的話，他是不會往下執行的
+
+    def juice_radio_button_clicked(self):
+        """
+        當我們每點擊一次 self.clickTimeButton 按鈕的時候，就會執行這裡
+        類似：[2020/03/07 23:42:19][現在時間] 23:42:19
+        """
+        self.displayListWidget.addItem(self.logv2('你選擇的是', '果汁'))  # 顯示在我們剛建立的 List Widget內
+        self.displayListWidget.scrollToBottom()  # 這行很重要，如果你沒加這行，你的如果超過self.displayListWidget範圍的話，他是不會往下執行的
+
+    def cola_radio_button_clicked(self):
+        """
+        當我們每點擊一次 self.clickTimeButton 按鈕的時候，就會執行這裡
+        類似：[2020/03/07 23:42:19][現在時間] 23:42:19
+        """
+        self.displayListWidget.addItem(self.logv2('你選擇的是', '可樂'))  # 顯示在我們剛建立的 List Widget內
         self.displayListWidget.scrollToBottom()  # 這行很重要，如果你沒加這行，你的如果超過self.displayListWidget範圍的話，他是不會往下執行的
 
 
