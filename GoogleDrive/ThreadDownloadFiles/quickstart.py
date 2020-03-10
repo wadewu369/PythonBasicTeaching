@@ -67,31 +67,16 @@ def search_folder(service, drive_service_folder_name=None):
 
 
 def download_folder_all_files(key, value, download_file_path, google_doc_format_dict):
-    # t = threading.Thread(target=download_folder_all_files,
-    #                      args=(key, value, download_file_path, getGoogleDocFormatDict()))
-
     """
-    :param file_id_list: 取得檔案的id list
-    :param file_name_list: 取得檔案的 name list
-    :param file_type_list: 取得檔案的 type
+    :param key: 每個檔案的id
+    :param value: value[0]為檔案名稱, value[1]為檔案類型
     :param download_file_path: 你要下載到哪個位置
     :param google_doc_format_dict: 取得google drive上的檔案格式
     """
-    download_file_path_list = []  # 紀錄下載多少個檔案跟檔案路徑
-
     drive_service = authorize_api()
-
-    # 我們將剛剛的三個list轉成 dict 來做操作下面的流程
-
-    # if downloadFileDict == {}:
-    #     print('你所提供的檔案名稱不存在或是輸入有錯，記得要加上副檔名')
-    # else:
-    # print('下載的檔案名稱以及Id: %s' % str(downloadFileDict))
-    # if file_id_list is not None:
     if str(value[1]) in google_doc_format_dict.keys():  # 判斷說 是否是Google上所建立的檔案，是的話用這個方法上傳
         if str(value[1]) != 'application/vnd.google-apps.form':  # 目前不支援表格，不曉得可以轉成什麼格式就先跳過不下載
             request = drive_service.files().export_media(fileId=key, mimeType=google_doc_format_dict[value[1]][0])  # fileId是檔案id, mimeTpye是下載轉成的檔案格式
-
         local_download_path = download_file_path + str(value[0]) + google_doc_format_dict[value[1]][1]  # 下載位置，最後一個是副檔名，因為google drive 好像沒提供，因此寫一個dict紀錄
     else:
         request = drive_service.files().get_media(fileId=key)  # 單純下載之前上傳的檔案，只要給一個fileId就可以
@@ -104,13 +89,7 @@ def download_folder_all_files(key, value, download_file_path, google_doc_format_
     while done is False:
         status, done = downloader.next_chunk()
         print("Download %d%%." % int(status.progress() * 100))
-    # print("下載檔案位置為: ", str(local_download_path))
     print("=====下載檔案 %s 完成=====" % str(value[0]))
-    download_file_path_list.append(local_download_path)
-    # else:
-    #     print("=====下載檔案失敗，未找到檔案=====")
-    # print('雲端檔案下載儲存在你本地端的位置:\n%s' % '\n'.join(download_file_path_list))
-    # print('檔案下載數量為: %s' % len(local_download_all_path_list))
 
 
 def download_folder_files(service, file_id_list, file_name_list, file_type_list, download_file_path, google_doc_format_dict):
@@ -287,15 +266,15 @@ def main(is_download_file_function=False, download_drive_service_name=None,
                     t.start()
                 for t in thread_download_drive_path_list:
                     t.join()
-                # download_folder_all_files(file_id_list=getDownloadFileIdList, download_file_path=download_file_path,  # 執行下載的動作
-                #                       file_name_list=getDownloadFileNameList, file_type_list=getDownloadFileMimeTypeList, google_doc_format_dict=getGoogleDocFormatDict())
             else:
                 download_folder_files(service=drive_service, file_id_list=getDownloadFileIdList, download_file_path=download_file_path,  # 執行下載的動作
                                       file_name_list=getDownloadFileNameList, file_type_list=getDownloadFileMimeTypeList, google_doc_format_dict=getGoogleDocFormatDict())
 
 
 if __name__ == '__main__':
-    # 花費時間 28.80秒 未使用 Thread 下載指定雲端資料夾內的所有檔案
+    # 花費時間 34.43345308303833秒 未使用 Thread 下載指定雲端資料夾內的所有檔案，14張圖片
+    # 花費時間 14.741281747817993秒 使用 Thread 下載指定雲端資料夾內的所有檔案，14張圖片
+
     start = time.time()
 
     main(is_download_file_function=bool(True), drive_service_folder_name='美國簽證', download_drive_service_name=None,
