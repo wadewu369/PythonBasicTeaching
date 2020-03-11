@@ -71,7 +71,7 @@ if __name__ == '__main__':
     # 裁剪圖片功能
     cropPictureFunction(save_crop_picture_path=os.getcwd() + '/cropPictureFiles/',
                         image_path_list=imagePathList, image_x=2000, image_y=510,
-                        crop_upper_proportion=1.6, crop_lower_proportion=1.05, isThread = True)
+                        crop_upper_proportion=1.6, crop_lower_proportion=1.05, isThread=False)
     end = time.time()
     print("用時{}秒".format((end-start)))
 
