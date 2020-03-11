@@ -41,7 +41,7 @@ class Mark(QMainWindow, Ui_MainWindow):
         # 當你想對你所選擇到的 Radio做其他操作可以多設定一個參數值給他
         self.selectRadioStr = ''
 
-        self.selectRadionButton.clicked.connect(self.select_radio_button_clicked)
+        self.selectRadioButton.clicked.connect(self.select_radio_button_clicked)
 
     def logv2(self, title, msg):
         """
