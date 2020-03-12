@@ -1,5 +1,5 @@
-文章名稱：【PyQt5 教學】如何在介面點擊Button後，顯示在GUI上？看了一定懂！
+文章名稱：【PyQt5 教學】Radio button(單選按鈕)怎麼套用？3種範例一次告訴你！
 
-文章連結：https://shareboxnow.com/pyqt5-1/
+文章連結：https://shareboxnow.com/pyqt5-radio-button/
 
-程式碼位置：https://github.com/MarkwwLiu/PythonBasicTeaching/tree/master/PyQT5/Chapter_2
+程式碼位置：https://github.com/MarkwwLiu/PythonBasicTeaching/tree/master/PyQT5/Chapter_3

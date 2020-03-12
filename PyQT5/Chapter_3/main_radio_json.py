@@ -42,7 +42,7 @@ class Mark(QMainWindow, Ui_MainWindow):
         self.selectRadioStr = ''
         self.drink_dict = Mark.getJsonToDictData(self)
 
-        self.selectRadionButton.clicked.connect(self.select_radio_button_clicked)
+        self.selectRadioButton.clicked.connect(self.select_radio_button_clicked)
 
     def logv2(self, title, msg):
         """
