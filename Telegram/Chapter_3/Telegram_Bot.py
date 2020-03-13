@@ -2,8 +2,7 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Updater, CommandHandler, CallbackQueryHandler
 import logging
 import time
-
-updater = Updater(token='1095867949:AAEt-ZKCtuEe5mNDMwjNiCKKXL2JBvvRm3w', use_context=False)
+updater = Updater(token='YOUR_TOKEN', use_context=False)
 
 # 印出log的方法
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
