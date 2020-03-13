@@ -3,7 +3,7 @@ from telegram.ext import Updater, CommandHandler, CallbackQueryHandler
 import logging
 import time
 
-updater = Updater(token='YOUR_TOKEN', use_context=False)
+updater = Updater(token='1095867949:AAEt-ZKCtuEe5mNDMwjNiCKKXL2JBvvRm3w', use_context=False)
 
 # 印出log的方法
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -77,9 +77,10 @@ def getClickButtonData(bot, update):
     logging.info('[getClickButtonData][callback_query data]: %s' % update.callback_query.data)
 
 
+
+
 # 當你對你的機器人說'/url'，就會執行這串
 updater.dispatcher.add_handler(CommandHandler('url', getUrl))
-
 # 當你對你的機器人說'/today'，就會執行這串
 updater.dispatcher.add_handler(CommandHandler('today', clickButton))
 # 當使用者點擊了 clickButton時，會獲取到 callback_data 這時會執行下方的指令，針對callback_data的參數值回應對應的訊息
