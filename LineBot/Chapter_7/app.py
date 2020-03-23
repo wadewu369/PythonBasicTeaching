@@ -17,6 +17,7 @@ line_bot_api = LineBotApi('YOUR_CHANNEL_ACCESS_TOKEN')
 handler = WebhookHandler('YOUR_CHANNEL_SECRET')
 user_id = 'user_id'
 
+
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/", methods = ['POST'])
 def callback():
@@ -36,21 +37,21 @@ def callback():
 
 @handler.add(MessageEvent)
 def handle_message_test(event):
-    line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "Test"))
     # get user id when reply
-    # MessageType, UserId = getEventsData(event)  # 取得使用者的發送訊息類型以及Id
-    # getSendMessage = getUserSendMessage(event, message_type = MessageType)  # 回傳使用者輸入的文字訊息，如果不是文字就回傳None
-    # getUserDisplayName, getUserId, getPictureUrl, getStatusMessage = getUserProfile(user_id = UserId)  # 取得使用者的個人資訊
-    # # 將以上取得的參數統整到 TextSendMessage內
-    # SendYouData = TextSendMessage(text = '---以下是你的個人資料---\n'
-    #                                      '傳送的訊息類型：%s \n'
-    #                                      '發送的訊息或是ID為: %s \n'
-    #                                      'User ID： %s \n'
-    #                                      '名稱是: %s \n'
-    #                                      '大頭照URL: %s \n'
-    #                                      '狀態: %s' % (MessageType, getSendMessage, getUserId,
-    #                                                  getUserDisplayName, getPictureUrl, getStatusMessage))
+    MessageType, UserId = getEventsData(event)  # 取得使用者的發送訊息類型以及Id
+    getSendMessage = getUserSendMessage(event, message_type = MessageType)  # 回傳使用者輸入的文字訊息，如果不是文字就回傳None
+    getUserDisplayName, getUserId, getPictureUrl, getStatusMessage = getUserProfile(user_id = UserId)  # 取得使用者的個人資訊
+    # 將以上取得的參數統整到 TextSendMessage內
+    SendYouData = TextSendMessage(text = '---以下是你的個人資料---\n'
+                                         '傳送的訊息類型：%s \n'
+                                         '發送的訊息或是ID為: %s \n'
+                                         'User ID： %s \n'
+                                         '名稱是: %s \n'
+                                         '大頭照URL: %s \n'
+                                         '狀態: %s' % (MessageType, getSendMessage, getUserId,
+                                                     getUserDisplayName, getPictureUrl, getStatusMessage))
     # 最後透過自動回覆的方法也就是reply_message，將SendYouData回傳到Line Bot訊息內
+    line_bot_api.reply_message(event.reply_token, SendYouData)
 
 
 def getEventsData(event):
