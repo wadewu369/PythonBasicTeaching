@@ -40,6 +40,7 @@ def handle_message_test(event):
     # get user id when reply
     MessageType, UserId = getEventsData(event)  # 取得使用者的發送訊息類型以及Id
     getSendMessage = getUserSendMessage(event, message_type = MessageType)  # 回傳使用者輸入的文字訊息，如果不是文字就回傳None
+
     getUserDisplayName, getUserId, getPictureUrl, getStatusMessage = getUserProfile(user_id = UserId)  # 取得使用者的個人資訊
     # 將以上取得的參數統整到 TextSendMessage內
     SendYouData = TextSendMessage(text = '---以下是你的個人資料---\n'
