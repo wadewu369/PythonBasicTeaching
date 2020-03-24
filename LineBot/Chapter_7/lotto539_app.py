@@ -49,16 +49,18 @@ def handle_message_test(event):
     line_bot_api.reply_message(event.reply_token, TextSendMessage(getSendMessage))
 
 
-def getOilData():
+def get539Data():
     try:
-        readData = pd.read_html('https://www2.moeaboe.gov.tw/oil102/oil2017/A01/A0108/tablesprices.asp', header=0)[1]  # 取得網頁上的表格資訊
+        readData = pd.read_html('https://www.pilio.idv.tw/lto539/list.asp', header=0)[3]  # 取得網頁上的表格資訊
+        isFormat = readData.loc[1][0][0:9]  # 判斷格式使用
     except:
-        readData = pd.read_html('https://www2.moeaboe.gov.tw/oil102/oil2017/A01/A0108/tablesprices.asp', header=0)[0]  # 取得網頁上的表格資訊
-    app.logger.info("getOilData: %s" % readData[0:2])
-    oilValue = readData.loc[1].values.tolist()
-    getOil = str('油品供應商: %s\n98無鉛汽油: %s\n95無鉛汽油: %s\n92無鉛汽油: %s\n超(高)級柴油: %s\n計價單位: %s\n施行日期: %s' %
-                 (oilValue[0], oilValue[1], oilValue[2], oilValue[3], oilValue[4], oilValue[5], oilValue[6][0:10]))
-    return getOil
+        readData = pd.read_html('https://www.pilio.idv.tw/lto539/list.asp', header=0)[2]  # 取得網頁上的表格資訊
+        isFormat = readData.loc[1][0][0:9]  # 判斷格式使用
+    app.logger.info("get539Data: %s" % readData.loc[0])
+    lotto539Value = readData.loc[0].values.tolist()
+    get539 = str('台灣彩卷539\n最新開獎日期: %s\n中獎號碼: %s' %
+                 (lotto539Value[0], lotto539Value[1]))
+    return str(get539)
 
 
 def getEventsData(event):
@@ -75,11 +77,11 @@ def getEventsData(event):
 
 def getUserSendMessage(event, message_type):
     # 使用者符合文字類型會將資訊回傳，如果不符合就會回傳None
-    reply_message_str = '你要查最新油價嗎？請輸入\"油價\"\n此機器人目前只能做以上功能，請見諒！'
+    reply_message_str = '你要查最新539號碼嗎？請輸入\"539\"\n此機器人目前只能做以上功能，請見諒！'
     if message_type == 'text':
         app.logger.info("message content: %s" % event.message.text)
-        if '油價' in event.message.text:
-            return getOilData()
+        if '539' in event.message.text:
+            return get539Data()
     return reply_message_str
 
 import os
